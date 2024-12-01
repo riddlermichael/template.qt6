@@ -10,24 +10,27 @@ endif()
 
 option(VERBOSE "Enable additional output for developer" OFF)
 
+# see https://doc.qt.io/qt-6/cmake-get-started.html
 # find Qt
 set(QT_COMPONENTS
     Core
     Widgets)
-find_package(Qt5 REQUIRED COMPONENTS ${QT_COMPONENTS})
-# versionless targets and commands are supported from Qt 5.15
+find_package(Qt6 REQUIRED COMPONENTS ${QT_COMPONENTS})
 # see https://doc.qt.io/qt-6/cmake-qt5-and-qt6-compatibility.html#pitfalls-when-using-versionless-targets
 if(${VERBOSE})
     foreach(X ${QT_COMPONENTS})
-        if(TARGET Qt5::${X}) # LinguistTools is not a target ¯\_(ツ)_/¯
-            get_target_property(LOC Qt5::${X} LOCATION)
-            message(STATUS "Found Qt5::${X} at ${LOC}")
+        if(TARGET Qt6::${X})
+            get_target_property(LOC Qt6::${X} LOCATION)
+            message(STATUS "Found Qt6::${X} at ${LOC}")
         endif()
     endforeach()
 endif()
 
+# see https://doc.qt.io/qt-6/qt-standard-project-setup.html
+qt_standard_project_setup()
+
 if(WIN32)
-    get_target_property(QT_QMAKE_LOCATION Qt5::qmake IMPORTED_LOCATION)
+    get_target_property(QT_QMAKE_LOCATION Qt::qmake IMPORTED_LOCATION)
     execute_process(
         COMMAND "${QT_QMAKE_LOCATION}" -query QT_INSTALL_PREFIX
         OUTPUT_VARIABLE QT_INSTALL_PREFIX
@@ -43,10 +46,6 @@ if(WIN32)
     add_executable(Qt::windeployqt IMPORTED)
     set_target_properties(Qt::windeployqt PROPERTIES IMPORTED_LOCATION "${WIN_DEPLOY_QT_LOCATION}")
 endif()
-
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
 
 # app
 set(ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR})

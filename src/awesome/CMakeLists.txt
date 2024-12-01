@@ -14,30 +14,15 @@ file(GLOB_RECURSE UIS "*.ui")
 
 # create app
 set(APP ${PROJECT_NAME})
-add_executable(${APP} ${SOURCES} ${HEADERS} ${UIS})
+# see https://doc.qt.io/qt-6/qt-add-executable.html
+qt_add_executable(${APP} ${SOURCES} ${HEADERS} ${UIS})
 target_include_directories(${APP} PUBLIC ${AWESOME_HOME})
-target_link_libraries(${APP} PUBLIC Qt5::Core Qt5::Widgets)
-
-include(GNUInstallDirs)
-
+target_link_libraries(${APP} PUBLIC Qt::Widgets)
 if(WIN32)
-    set(CMAKE_INSTALL_BINDIR ".")
-    set(CMAKE_INSTALL_LIBDIR ".")
-    set(CMAKE_INSTALL_DATADIR ".")
-
     set_target_properties(${APP} PROPERTIES WIN32_EXECUTABLE ON)
 endif()
 
-if(UNIX)
-    set(CMAKE_SKIP_BUILD_RPATH FALSE)
-    set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
-    set(CMAKE_INSTALL_RPATH "$ORIGIN/../${CMAKE_INSTALL_LIBDIR}")
-    set(CMAKE_INSTALL_RPATH_USE_LINK_PATH FALSE)
-
-    target_link_options(${APP} PUBLIC "-Wl,--disable-new-dtags")
-    target_link_options(${APP} PUBLIC "-Wl,-z,origin")
-endif()
-
+# deploy
 if(WIN32)
     # deploy Qt libs
     # if Qt's lib folder is not in PATH, set DEPLOY_QT_ON_BUILD to ON
