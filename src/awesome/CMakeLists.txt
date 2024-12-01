@@ -50,7 +50,7 @@ if(WIN32)
         set(BUILD_DEPLOY_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
         set(BUILD_DEPLOY_OPTS --no-compiler-runtime --no-angle --no-opengl-sw --no-system-d3d-compiler --no-translations)
         add_custom_command(TARGET ${APP} POST_BUILD
-            COMMAND Qt5::windeployqt ${BUILD_DEPLOY_OPTS} --dir "${BUILD_DEPLOY_DIR}" "$<TARGET_FILE:${APP}>"
+            COMMAND Qt::windeployqt ${BUILD_DEPLOY_OPTS} --dir "${BUILD_DEPLOY_DIR}" "$<TARGET_FILE:${APP}>"
             COMMENT "Deploying Qt on build")
     endif()
 
@@ -74,7 +74,7 @@ if(WIN32)
         endif()
         add_custom_command(TARGET ${APP} POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E remove_directory "${DEPLOY_DIR}"
-            COMMAND Qt5::windeployqt ${DEPLOY_OPTS} --dir "${DEPLOY_DIR}" "$<TARGET_FILE:${APP}>"
+            COMMAND Qt::windeployqt ${DEPLOY_OPTS} --dir "${DEPLOY_DIR}" "$<TARGET_FILE:${APP}>"
             COMMENT "Deploying Qt")
     endif()
 endif()
