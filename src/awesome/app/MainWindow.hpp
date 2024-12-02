@@ -1,8 +1,8 @@
 #pragma once
 
-#include <QMainWindow>
+#include "ui_MainWindow.h"
 
-namespace awesome {
+namespace awesome::app {
 
 class MainWindow final : public QMainWindow {
 	Q_OBJECT
@@ -12,6 +12,9 @@ class MainWindow final : public QMainWindow {
 
 public:
 	explicit MainWindow(QWidget* parent = nullptr);
+
+private:
+	Ui::MainWindow ui_{};
 };
 
-} // namespace awesome
+} // namespace awesome::app

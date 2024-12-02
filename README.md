@@ -1,1 +1,1 @@
-# Template repo for Qt-based applications
+# Template repo for Qt6-based applications
