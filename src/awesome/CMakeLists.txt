@@ -10,16 +10,31 @@ configure_file(version.hpp.in "${VERSION_FILE}")
 # collect sources
 file(GLOB_RECURSE HEADERS "*.hpp")
 file(GLOB_RECURSE SOURCES "*.cpp")
+# see https://doc.qt.io/qt-6/qt-wrap-ui.html
 file(GLOB_RECURSE UIS "*.ui")
+
+# collect resources
+set(RESOURCES_ROOT "${PROJECT_SOURCE_DIR}/resources")
+set(RESOURCES "${RESOURCES_ROOT}/main.qrc")
 
 # create app
 set(APP ${PROJECT_NAME})
+# see https://doc.qt.io/qt-6/resources.html
+set(CMAKE_AUTORCC ON)
 # see https://doc.qt.io/qt-6/qt-add-executable.html
-qt_add_executable(${APP} ${SOURCES} ${HEADERS} ${UIS})
+# see https://doc.qt.io/qt-6/qt-add-ui.html (since Qt 6.8)
+qt_add_executable(${APP} ${SOURCES} ${HEADERS} ${UIS} ${RESOURCES})
 target_include_directories(${APP} PUBLIC ${AWESOME_HOME})
 target_link_libraries(${APP} PUBLIC Qt::Widgets)
 if(WIN32)
     set_target_properties(${APP} PROPERTIES WIN32_EXECUTABLE ON)
+endif()
+
+# another approach is compilation of binary resources into source code; remove this if-block in production!
+if(FALSE)
+    # see https://doc.qt.io/qt-6/qt-add-resources.html
+    qt_add_resources(RESOURCES_CPP "${RESOURCES}")
+    qt_add_executable(${APP} ${SOURCES} ${HEADERS} ${UIS} ${RESOURCES_CPP})
 endif()
 
 # deploy

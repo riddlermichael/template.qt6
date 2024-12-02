@@ -10,6 +10,7 @@ endif()
 
 option(VERBOSE "Enable additional output for developer" OFF)
 
+# see https://cmake.org/cmake/help/latest/manual/cmake-qt.7.html
 # see https://doc.qt.io/qt-6/cmake-get-started.html
 # find Qt
 set(QT_COMPONENTS
