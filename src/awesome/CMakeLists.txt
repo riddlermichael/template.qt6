@@ -48,7 +48,7 @@ if(WIN32)
 
     if(${DEPLOY_QT_ON_BUILD})
         set(BUILD_DEPLOY_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
-        set(BUILD_DEPLOY_OPTS --no-compiler-runtime --no-angle --no-opengl-sw --no-system-d3d-compiler --no-translations)
+        set(BUILD_DEPLOY_OPTS --no-compiler-runtime --no-opengl-sw --no-system-d3d-compiler --no-translations)
         add_custom_command(TARGET ${APP} POST_BUILD
             COMMAND Qt::windeployqt ${BUILD_DEPLOY_OPTS} --dir "${BUILD_DEPLOY_DIR}" "$<TARGET_FILE:${APP}>"
             COMMENT "Deploying Qt on build")
@@ -65,7 +65,7 @@ if(WIN32)
 
     if(${DEPLOY_APP})
         set(DEPLOY_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/deploy" CACHE PATH "Deploy dir")
-        set(DEPLOY_OPTS --compiler-runtime --no-angle --no-opengl-sw --no-system-d3d-compiler --no-translations)
+        set(DEPLOY_OPTS --compiler-runtime --no-opengl-sw --no-system-d3d-compiler --no-translations)
         if(DEFINED ENV{CI})
             list(APPEND DEPLOY_OPTS --release) # force release versions of Qt libs
         endif()
